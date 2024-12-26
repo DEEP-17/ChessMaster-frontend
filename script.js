@@ -253,7 +253,7 @@ style.innerHTML = `
 document.head.appendChild(style);
 
 // Socket connection
-const socket = io('https://chess-game-backend-z158.onrender.com');
+const socket = io(process.env.SERVER_URL);
 console.log(socket);
 // socket.on('i_am_connected',function(){
 //   alert('you are connected to backend server');
