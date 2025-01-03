@@ -14,6 +14,8 @@ const castleSound = new Audio('./sounds/castle.mp3');
 const startSound = new Audio('./sounds/start.mp3');
 const endSound = new Audio('./sounds/end.mp3');
 
+const process = require('process');
+
 // Highlight legal moves
 function removeHighlights() {
   $('#Board1 .square-55d63').removeClass('highlight check');
