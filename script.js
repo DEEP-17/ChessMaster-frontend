@@ -14,7 +14,6 @@ const castleSound = new Audio('./sounds/castle.mp3');
 const startSound = new Audio('./sounds/start.mp3');
 const endSound = new Audio('./sounds/end.mp3');
 
-const process = require('process');
 
 // Highlight legal moves
 function removeHighlights() {
@@ -255,7 +254,7 @@ style.innerHTML = `
 document.head.appendChild(style);
 
 // Socket connection
-const socket = io(process.env.SERVER_URL);
+const socket = io("https://chess-game-backend-z158.onrender.com");
 console.log(socket);
 // socket.on('i_am_connected',function(){
 //   alert('you are connected to backend server');
