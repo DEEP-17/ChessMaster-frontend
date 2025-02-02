@@ -28,7 +28,7 @@ function recordPosition() {
 }
 
 function checkThreefoldRepetition(position) {
-   return positionHistory.filter(pos => pos === position).length == 2;
+   return positionHistory.filter(pos => pos === position).length == 3;
 }
 
 function showGameResultModal(isWinner, reason = '') {
