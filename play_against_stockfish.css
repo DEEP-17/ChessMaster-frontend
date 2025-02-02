@@ -1,0 +1,208 @@
+:root {
+    --primary-color: #2563eb;
+    --primary-hover: #1d4ed8;
+    --bg-dark: #0f172a;
+    --bg-darker: #020617;
+    --text-light: #f8fafc;
+    --text-gray: #94a3b8;
+    --card-bg: #1e293b;
+    --card-hover: #334155;
+    --accent-green: #22c55e;
+    --accent-red: #ef4444;
+    --border-color: #334155;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 2rem;
+    min-height: 100vh;
+    background: linear-gradient(135deg, var(--bg-darker) 0%, var(--bg-dark) 100%);
+    color: var(--text-light);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    background: linear-gradient(45deg, var(--primary-color), #818cf8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+    font-weight: 700;
+}
+
+.controls {
+    background: var(--card-bg);
+    padding: 1.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    max-width: 800px;
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-gray);
+}
+
+select {
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--border-color);
+    background: var(--bg-darker);
+    color: var(--text-light);
+    font-size: 0.875rem;
+    min-width: 150px;
+    cursor: pointer;
+}
+
+select:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+.container {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    max-width: 1200px;
+}
+
+.board-container {
+    background: var(--card-bg);
+    padding: 1.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+#board {
+    width: 500px !important;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.clock {
+    background: var(--bg-darker);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+    text-align: center;
+    margin: 1rem 0;
+    border: 1px solid var(--border-color);
+}
+
+button {
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.875rem;
+}
+
+#start-game {
+    background: var(--primary-color);
+    color: white;
+}
+
+#start-game:hover {
+    background: var(--primary-hover);
+    transform: translateY(-1px);
+}
+
+#resign-button {
+    background: var(--accent-red);
+    color: white;
+    width: 100%;
+}
+
+#resign-button:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+.pgn-container {
+    background: var(--card-bg);
+    padding: 1.5rem;
+    border-radius: 1rem;
+    min-width: 300px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.pgn-display {
+    background: var(--bg-darker);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--border-color);
+    color: var(--text-light);
+    font-family: 'Courier New', monospace;
+    height: 300px;
+    overflow-y: auto;
+    margin-bottom: 1rem;
+    white-space: pre-wrap;
+}
+
+.pgn-navigation {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+}
+
+.pgn-navigation button {
+    background: var(--card-hover);
+    color: var(--text-light);
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+}
+
+.pgn-navigation button:hover {
+    background: var(--primary-color);
+    transform: translateY(-1px);
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 1rem;
+    }
+
+    #board {
+        width: 100% !important;
+        max-width: 400px;
+    }
+
+    .container {
+        gap: 1rem;
+    }
+
+    .controls {
+        padding: 1rem;
+    }
+}

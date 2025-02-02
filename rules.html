@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chess Rules</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: black;
+            color: #FFD700;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 0;
+            border-bottom: 2px solid #FFD700;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+
+        .search-container {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        #searchInput {
+            width: 300px;
+            padding: 10px;
+            font-size: 16px;
+            border: 2px solid #FFD700;
+            background: black;
+            color: #FFD700;
+            border-radius: 5px;
+        }
+
+        #searchInput::placeholder {
+            color: #FFD700;
+            opacity: 0.7;
+        }
+
+        .category {
+            border: 2px solid #FFD700;
+            margin-bottom: 30px;
+            padding: 20px;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .category:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+        }
+
+        h2 {
+            color: #FFD700;
+            margin-bottom: 15px;
+            font-size: 1.8em;
+            border-bottom: 1px solid #FFD700;
+            padding-bottom: 10px;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        li {
+            margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        li:before {
+            content: "♔";
+            position: absolute;
+            left: 0;
+            color: #FFD700;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            border-top: 2px solid #FFD700;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            #searchInput {
+                width: 90%;
+            }
+            
+            .category {
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Chess Rules</h1>
+            <div class="search-container">
+                <input type="text" id="searchInput" placeholder="Search rules..." onkeyup="searchRules()">
+            </div>
+        </header>
+
+        <div id="rulesContainer">
+            <div class="category">
+                <h2>Basic Setup</h2>
+                <ul>
+                    <li>The chessboard consists of 64 squares in an 8x8 grid, alternating between light and dark colors</li>
+                    <li>White pieces are placed on the first two rows, black pieces on the last two rows</li>
+                    <li>Each player starts with 16 pieces: 1 king, 1 queen, 2 rooks, 2 knights, 2 bishops, and 8 pawns</li>
+                    <li>The queen starts on her own color (white queen on white square, black queen on black square)</li>
+                    <li>The board must be positioned so each player has a white square in their bottom-right corner</li>
+                </ul>
+            </div>
+
+            <div class="category">
+                <h2>Movement Rules</h2>
+                <ul>
+                    <li>The king moves one square in any direction</li>
+                    <li>The queen moves any number of squares diagonally, horizontally, or vertically</li>
+                    <li>Rooks move any number of squares horizontally or vertically</li>
+                    <li>Bishops move any number of squares diagonally</li>
+                    <li>Knights move in an L-shape: two squares in one direction and then one square perpendicular</li>
+                    <li>Pawns move forward one square at a time, but can move two squares on their first move</li>
+                    <li>Pawns capture diagonally one square forward</li>
+                    <li>Pieces cannot jump over other pieces (except knights)</li>
+                    <li>No piece can move to a square occupied by a piece of the same color</li>
+                </ul>
+            </div>
+
+            <div class="category">
+                <h2>Special Moves</h2>
+                <ul>
+                    <li>Castling involves moving the king two squares toward a rook and placing the rook on the other side</li>
+                    <li>En passant allows a pawn to capture an opponent's pawn that has just moved two squares</li>
+                    <li>Pawn promotion occurs when a pawn reaches the opposite end of the board</li>
+                    <li>When promoting, a pawn can become any piece except a king</li>
+                </ul>
+            </div>
+
+            <div class="category">
+                <h2>Game Flow</h2>
+                <ul>
+                    <li>White always moves first</li>
+                    <li>Players must alternate turns</li>
+                    <li>Each turn consists of moving one piece according to its rules</li>
+                    <li>A piece must be moved if a legal move is available</li>
+                    <li>The game continues until checkmate or a draw occurs</li>
+                </ul>
+            </div>
+
+            <div class="category">
+                <h2>Check and Checkmate</h2>
+                <ul>
+                    <li>Check occurs when a king is under threat of capture</li>
+                    <li>When in check, the player must move to remove the threat</li>
+                    <li>Only three options exist when in check: move the king, block the check, or capture the threatening piece</li>
+                    <li>Checkmate occurs when a king is in check and no legal move can prevent capture</li>
+                    <li>A player cannot make a move that puts or leaves their own king in check</li>
+                </ul>
+            </div>
+
+            <div class="category">
+                <h2>Draw Conditions</h2>
+                <ul>
+                    <li>Stalemate occurs when a player has no legal moves but is not in check</li>
+                    <li>Threefold repetition: same position occurs three times with the same player to move</li>
+                    <li>Fifty-move rule: no pawn moves or captures in the last 50 moves</li>
+                    <li>Insufficient material: neither player has enough pieces to force checkmate</li>
+                    <li>Players can agree to a draw at any time</li>
+                </ul>
+            </div>
+
+            <div class="category">
+                <h2>Basic Strategy</h2>
+                <ul>
+                    <li>Control the center of the board</li>
+                    <li>Develop your pieces early in the game</li>
+                    <li>Castle early to protect your king</li>
+                    <li>Don't bring your queen out too early</li>
+                    <li>Connect your rooks by moving pieces between them</li>
+                    <li>Create a strong pawn structure</li>
+                    <li>Look for forced moves and combinations</li>
+                    <li>Think about your opponent's threats</li>
+                    <li>Plan several moves ahead</li>
+                    <li>Protect your king's position</li>
+                </ul>
+            </div>
+
+            <div class="category">
+                <h2>Tournament Rules</h2>
+                <ul>
+                    <li>Touch-move rule: if you touch a piece, you must move it if possible</li>
+                    <li>Games may be timed using a chess clock</li>
+                    <li>Players must record their moves in standard notation</li>
+                    <li>Players must offer draws verbally and during their own turn</li>
+                    <li>Players should shake hands before and after the game</li>
+                </ul>
+            </div>
+        </div>
+
+        <footer>
+            <p>Learn and master the game of chess with these fundamental rules.</p>
+        </footer>
+    </div>
+
+    <script>
+        function searchRules() {
+            const input = document.getElementById('searchInput');
+            const filter = input.value.toLowerCase();
+            const categories = document.getElementsByClassName('category');
+
+            for (let category of categories) {
+                const text = category.textContent.toLowerCase();
+                category.style.display = text.includes(filter) ? '' : 'none';
+            }
+        }
+    </script>
+</body>
+</html>

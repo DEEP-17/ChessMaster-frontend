@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chess PGN Viewer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="evaluate.css">
+</head>
+<body>
+    <div class="header">
+        <h1>Chess PGN Viewer</h1>
+    </div>
+
+    <div class="input-section">
+        <textarea id="pgn-input" rows="4" placeholder="Paste your PGN notation here..."></textarea>
+        <button id="load-pgn">Load PGN</button>
+    </div>
+
+    <div class="container">
+        <div class="main-section">
+            <div class="board-section">
+                <div id="board" style="width: 400px;"></div>
+                <div class="eval-bar">
+                    <div class="white-bar" id="white-bar">
+                        <span id="white-eval"></span>
+                    </div>
+                    <div class="black-bar" id="black-bar">
+                        <span id="black-eval"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="pgn-section">
+                <div class="pgn-display" id="pgn-display">Game moves will appear here...</div>
+                <div class="pgn-navigation">
+                    <button id="first-move" title="First Move">|◀</button>
+                    <button id="prev-move" title="Previous Move">◀</button>
+                    <button id="next-move" title="Next Move">▶</button>
+                    <button id="last-move" title="Last Move">▶|</button>
+                </div>
+            </div>
+        </div>
+        <div class="analysis-section">
+            <div class="top-moves">
+                <h3>Engine Analysis</h3>
+                <table class="engine-analysis">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Evaluation</th>
+                            <th>Line</th>
+                        </tr>
+                    </thead>
+                    <tbody id="move-suggestions"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js" integrity="sha512-xRllwz2gdZciIB+AkEbeq+gVhX8VB8XsfqeFbUh+SzHlN96dEduwtTuVuc2u9EROlmW9+yhRlxjif66ORpsgVA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.js"></script>
+    <script src="evaluate.js"></script>
+</body>
+</html>

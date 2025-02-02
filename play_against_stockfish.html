@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Play Chess with Stockfish</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="play_against_stockfish.css">
+</head>
+<body>
+    <h1>Play Chess Against Stockfish</h1>
+    <div class="controls">
+        <div class="control-group">
+            <label for="color-select">Choose Your Color</label>
+            <select id="color-select">
+                <option value="white">White</option>
+                <option value="black">Black</option>
+            </select>
+        </div>
+        <div class="control-group">
+            <label for="difficulty-select">Choose Difficulty</label>
+            <select id="difficulty-select">
+                <option value="1">Level 1 (Beginner)</option>
+                <option value="5">Level 5 (Intermediate)</option>
+                <option value="10">Level 10 (Advanced)</option>
+                <option value="15">Level 15 (Expert)</option>
+            </select>
+        </div>
+        <button id="start-game">Start New Game</button>
+    </div>
+    <div class="container">
+        <div class="board-container">
+            <div id="board"></div>
+            <!-- <div class="clock" id="player-clock">Player: 05:00</div>
+            <div class="clock" id="stockfish-clock">Stockfish: 05:00</div> -->
+            <button id="resign-button">Resign Game</button>
+        </div>
+        <div class="pgn-container">
+            <div class="pgn-display" id="pgn-display">Game moves will appear here...</div>
+            <div class="pgn-navigation">
+                <button id="first-move" title="First Move">|◀</button>
+                <button id="prev-move" title="Previous Move">◀</button>
+                <button id="next-move" title="Next Move">▶</button>
+                <button id="last-move" title="Last Move">▶|</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.js"></script>
+    <script src="play_against_stockfish.js"></script>
+</body>
+</html>

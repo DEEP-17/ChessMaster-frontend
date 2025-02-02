@@ -1,0 +1,251 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.header {
+    text-align: center;
+    padding: 2rem;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    margin-bottom: 2rem;
+}
+
+h1 {
+    margin: 0;
+    font-size: 2.5rem;
+    font-weight: 600;
+    background: linear-gradient(45deg, #4CAF50, #81C784);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.input-section {
+    width: 100%;
+    max-width: 800px;
+    margin-bottom: 2rem;
+    padding: 0 1rem;
+}
+
+textarea {
+    width: 100%;
+    padding: 1rem;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+    font-family: 'Poppins', sans-serif;
+    resize: vertical;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+}
+
+textarea:focus {
+    outline: none;
+    border-color: #4CAF50;
+    box-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
+}
+
+button {
+    background: #4CAF50;
+    color: white;
+    border: none;
+    padding: 0.8rem 2rem;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    background: #45a049;
+    transform: translateY(-2px);
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    padding: 0 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.main-section {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+    width: 100%;
+    justify-content: center;
+}
+
+.board-section {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+}
+
+.pgn-section {
+    min-width: 300px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 1.5rem;
+}
+
+.analysis-section {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-top: 2rem;
+}
+
+.engine-analysis {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.engine-analysis th,
+.engine-analysis td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.engine-analysis th {
+    background: rgba(76, 175, 80, 0.2);
+    font-weight: 600;
+}
+
+.engine-analysis tr:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+#board {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.eval-bar {
+    width: 24px;
+    height: 400px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+}
+
+.eval-bar div {
+    width: 100%;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.white-bar {
+    background: #fff;
+    bottom: 0;
+    color: #000;
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+.black-bar {
+    background: #000;
+    top: 0;
+}
+
+.black-bar span {
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+.top-moves h3 {
+    margin: 0;
+    padding: 1rem;
+    background: rgba(76, 175, 80, 0.2);
+    border-radius: 8px;
+    font-size: 1.1rem;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.pgn-navigation {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.pgn-navigation button {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border-radius: 4px;
+}
+
+.pgn-navigation button:hover {
+    background: rgba(76, 175, 80, 0.3);
+}
+
+.pgn-display {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 1rem;
+    border-radius: 8px;
+    margin: 1rem 0;
+    font-family: 'Courier New', monospace;
+    white-space: pre-wrap;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+@media (max-width: 1024px) {
+    .container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .eval-bar {
+        width: 400px;
+        height: 24px;
+        margin: 1rem 0;
+    }
+
+    .white-bar {
+        right: 0;
+        left: auto;
+        height: 100% !important;
+        width: 50%;
+    }
+
+    .black-bar {
+        left: 0;
+        right: auto;
+        height: 100% !important;
+        width: 50%;
+    }
+
+    .analysis-section {
+        width: 100%;
+        max-width: 400px;
+    }
+}

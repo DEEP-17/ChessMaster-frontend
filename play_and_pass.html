@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pass and Play Chess</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="pass_and_play.css">
+</head>
+<body>
+    <h1>Pass and Play Chess</h1>
+    <div class="controls">
+        <div class="time-input-group">
+            <label for="white-time">White Time (minutes)</label>
+            <input type="number" id="white-time" value="5" min="1">
+        </div>
+        <div class="time-input-group">
+            <label for="black-time">Black Time (minutes)</label>
+            <input type="number" id="black-time" value="5" min="1">
+        </div>
+        <button id="start-game">Start New Game</button>
+    </div>
+    <div class="main-container">
+        <div class="board-container">
+            <div id="board"></div>
+            <div class="clock" id="white-clock">White: 05:00</div>
+            <div class="clock" id="black-clock">Black: 05:00</div>
+        </div>
+        <div class="pgn-container">
+            <div class="pgn-display" id="pgn-display">Game moves will appear here...</div>
+            <div class="game-actions">
+                <button id="copy-pgn">Copy PGN</button>
+                <button id="draw">Offer Draw</button>
+                <button id="white-resign">White Resigns</button>
+                <button id="black-resign">Black Resigns</button>
+            </div>
+            <div class="pgn-navigation">
+                <button id="first-move" title="First Move">|◀</button>
+                <button id="prev-move" title="Previous Move">◀</button>
+                <button id="next-move" title="Next Move">▶</button>
+                <button id="last-move" title="Last Move">▶|</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.js"></script>
+    <script src="pass_and_play.js"></script>
+</body>
+</html>

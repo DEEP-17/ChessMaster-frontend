@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chess PGN Viewer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header {
+            text-align: center;
+            padding: 2rem;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            font-weight: 600;
+            background: linear-gradient(45deg, #4CAF50, #81C784);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .input-section {
+            width: 100%;
+            max-width: 800px;
+            margin-bottom: 2rem;
+            padding: 0 1rem;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
+            resize: vertical;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #4CAF50;
+            box-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
+        }
+
+        button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+            padding: 0 1rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .main-section {
+            display: flex;
+            gap: 2rem;
+            align-items: flex-start;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .board-section {
+            display: flex;
+            gap: 2rem;
+            align-items: flex-start;
+        }
+
+        .pgn-section {
+            min-width: 300px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+
+        .analysis-section {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .engine-analysis {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .engine-analysis th,
+        .engine-analysis td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .engine-analysis th {
+            background: rgba(76, 175, 80, 0.2);
+            font-weight: 600;
+        }
+
+        .engine-analysis tr:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        #board {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+
+        .eval-bar {
+            width: 24px;
+            height: 400px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .eval-bar div {
+            width: 100%;
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .white-bar {
+            background: #fff;
+            bottom: 0;
+            color: #000;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .black-bar {
+            background: #000;
+            top: 0;
+        }
+
+        .black-bar span {
+            color: #fff;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .top-moves h3 {
+            margin: 0;
+            padding: 1rem;
+            background: rgba(76, 175, 80, 0.2);
+            border-radius: 8px;
+            font-size: 1.1rem;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .pgn-navigation {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        .pgn-navigation button {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            border-radius: 4px;
+        }
+
+        .pgn-navigation button:hover {
+            background: rgba(76, 175, 80, 0.3);
+        }
+
+        .pgn-display {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        @media (max-width: 1024px) {
+            .container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .eval-bar {
+                width: 400px;
+                height: 24px;
+                margin: 1rem 0;
+            }
+
+            .white-bar {
+                right: 0;
+                left: auto;
+                height: 100% !important;
+                width: 50%;
+            }
+
+            .black-bar {
+                left: 0;
+                right: auto;
+                height: 100% !important;
+                width: 50%;
+            }
+
+            .analysis-section {
+                width: 100%;
+                max-width: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Chess PGN Viewer</h1>
+    </div>
+
+    <div class="input-section">
+        <textarea id="pgn-input" rows="4" placeholder="Paste your PGN notation here..."></textarea>
+        <button id="load-pgn">Load PGN</button>
+    </div>
+
+    <div class="container">
+        <div class="main-section">
+            <div class="board-section">
+                <div id="board" style="width: 400px;"></div>
+                <div class="eval-bar">
+                    <div class="white-bar" id="white-bar">
+                        <span id="white-eval"></span>
+                    </div>
+                    <div class="black-bar" id="black-bar">
+                        <span id="black-eval"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="pgn-section">
+                <div class="pgn-display" id="pgn-display">Game moves will appear here...</div>
+                <div class="pgn-navigation">
+                    <button id="first-move" title="First Move">|◀</button>
+                    <button id="prev-move" title="Previous Move">◀</button>
+                    <button id="next-move" title="Next Move">▶</button>
+                    <button id="last-move" title="Last Move">▶|</button>
+                </div>
+            </div>
+        </div>
+        <div class="analysis-section">
+            <div class="top-moves">
+                <h3>Engine Analysis</h3>
+                <table class="engine-analysis">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Evaluation</th>
+                            <th>Line</th>
+                        </tr>
+                    </thead>
+                    <tbody id="move-suggestions"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js" integrity="sha512-xRllwz2gdZciIB+AkEbeq+gVhX8VB8XsfqeFbUh+SzHlN96dEduwtTuVuc2u9EROlmW9+yhRlxjif66ORpsgVA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const board = Chessboard('board', {
+                draggable: true,
+                position: 'start',
+                pieceTheme: 'images/pieces/{piece}.png',
+                onDrop: handleMove
+            });
+
+            const chess = new Chess();
+            const stockfish = new Worker('stockfish.js');
+            let isWhiteTurn = true;
+            let moveHistory = [];
+            let currentMoveIndex = -1;
+
+            document.getElementById('load-pgn').addEventListener('click', () => {
+                const pgn = document.getElementById('pgn-input').value;
+                if (chess.load_pgn(pgn)) {
+                    moveHistory = chess.history();
+                    currentMoveIndex = moveHistory.length - 1;
+                    board.position(chess.fen());
+                    analyzePosition();
+                    updatePGNDisplay();
+                } else {
+                    alert('Invalid PGN');
+                }
+            });
+            function showPromotionModal(color) {
+        const modal = document.querySelector('.promotion-modal');
+        const pieces = modal.querySelectorAll('.promotion-piece');
+
+        pieces.forEach(piece => {
+            const currentSrc = piece.src;
+            piece.src = currentSrc.replace(/[wb](?=[qrbn])/, color);
+        });
+
+        modal.style.display = 'flex';
+
+        pieces.forEach(piece => {
+            piece.onclick = () => handlePromotion(piece.dataset.piece);
+        });
+    }
+            function handleMove(source, target) {
+                const move = chess.move({
+                    from: source,
+                    to: target,
+                     // Always promote to queen for simplicity
+                });
+                if (
+            (game.turn() === 'w' && source.charAt(1) === '7' && target.charAt(1) === '8') ||
+            (game.turn() === 'b' && source.charAt(1) === '2' && target.charAt(1) === '1')
+        ) {
+            pendingPromotion = { source, target };
+            showPromotionModal(game.turn());
+            return;
+        }
+
+                if (move === null) {
+                    return 'snapback'; // Invalid move, snap piece back
+                }
+
+                isWhiteTurn = chess.turn() === 'w';
+                moveHistory = chess.history();
+                currentMoveIndex = moveHistory.length - 1;
+                board.position(chess.fen());
+                analyzePosition();
+                updatePGNDisplay();
+            }
+
+            function analyzePosition() {
+                stockfish.postMessage('position fen ' + chess.fen());
+                stockfish.postMessage('go depth 15');
+            }
+
+            stockfish.onmessage = function (event) {
+                const message = event.data;
+                if (message.startsWith('info') && message.includes('score')) {
+                    const evalMatch = message.match(/score (cp|mate) (-?\d+)/);
+                    const cp = evalMatch && evalMatch[1] === 'cp' ? parseInt(evalMatch[2]) : null;
+                    const mate = evalMatch && evalMatch[1] === 'mate' ? parseInt(evalMatch[2]) : null;
+
+                    if (cp !== null || mate !== null) {
+                        updateEvalBar(cp, mate);
+                    }
+                }
+
+                if (message.startsWith('info') && message.includes('pv')) {
+                    suggestMoves(message);
+                }
+            };
+
+            function updateEvalBar(cp, mate) {
+                const whiteBar = document.getElementById('white-bar');
+                const blackBar = document.getElementById('black-bar');
+                const whiteEval = document.getElementById('white-eval');
+                const blackEval = document.getElementById('black-eval');
+
+                const evaluation = cp !== null ? cp / 100 : (mate > 0 ? 10 : -10);
+
+                const whiteHeight = Math.max(0, 200 + evaluation * 20);
+                const blackHeight = 400 - whiteHeight;
+
+                whiteBar.style.height = `${whiteHeight}px`;
+                blackBar.style.height = `${blackHeight}px`;
+
+                whiteEval.textContent = evaluation < 0 ? `${(evaluation).toFixed(2)}` : '';
+                blackEval.textContent = evaluation > 0 ? `${(evaluation).toFixed(2)}` : '';
+
+                const status = document.querySelector('.top-moves h3');
+                if (mate !== null) {
+                    status.textContent = mate > 0
+                        ? isWhiteTurn
+                            ? 'White is winning by checkmate!'
+                            : 'Black is winning by checkmate!'
+                        : '';
+                } else if (evaluation > 1) {
+                    status.textContent = 'White has a significant advantage!';
+                } else if (evaluation < -1) {
+                    status.textContent = 'Black has a significant advantage!';
+                } else {
+                    status.textContent = 'The game is balanced.';
+                }
+            }
+
+            function suggestMoves(message) {
+                const movesList = document.getElementById('move-suggestions');
+                const moveLines = message.split(' pv ');
+                const evaluations = [];
+
+                // Collect up to 3 different lines
+                if (moveLines.length > 1) {
+                    const evalMatch = message.match(/score (cp|mate) (-?\d+)/);
+                    const evaluation = evalMatch ? (evalMatch[1] === 'cp' ? parseFloat(evalMatch[2]) / 100 : `M${evalMatch[2]}`) : null;
+                    
+                    const pvString = moveLines[1].trim();
+                    const moveSequence = pvString.split(' ');
+
+                    evaluations.push({
+                        eval: evaluation,
+                        moves: moveSequence.slice(0, 15).join(' ')
+                    });
+
+                    // Keep only top 3 unique variations
+                    if (evaluations.length > 3) {
+                        evaluations.length = 3;
+                    }
+
+                    // Clear and update the table
+                    movesList.innerHTML = evaluations.map((line, index) => `
+                        <tr>
+                            <td>${index + 1}</td>
+                            <td>${typeof line.eval === 'number' ? line.eval.toFixed(2) : line.eval}</td>
+                            <td>${line.moves}</td>
+                        </tr>
+                    `).join('');
+                }
+            }
+
+            function updatePGNDisplay() {
+                const moves = chess.history();
+                let formattedPGN = '';
+                for (let i = 0; i < moves.length; i++) {
+                    if (i % 2 === 0) {
+                        formattedPGN += `${Math.floor(i / 2) + 1}. ${moves[i]} `;
+                    } else {
+                        formattedPGN += `${moves[i]}\n`;
+                    }
+                }
+                $('#pgn-display').text(formattedPGN.trim() || 'Game moves will appear here...');
+            }
+
+            document.getElementById('first-move').addEventListener('click', () => {
+                if (moveHistory.length === 0) return;
+                currentMoveIndex = -1;
+                chess.reset();
+                board.position(chess.fen());
+                analyzePosition();
+                updatePGNDisplay();
+            });
+
+            document.getElementById('prev-move').addEventListener('click', () => {
+                if (currentMoveIndex < 0) return;
+                chess.undo();
+                currentMoveIndex--;
+                board.position(chess.fen());
+                analyzePosition();
+                updatePGNDisplay();
+            });
+
+            document.getElementById('next-move').addEventListener('click', () => {
+                if (currentMoveIndex >= moveHistory.length - 1) return;
+                currentMoveIndex++;
+                chess.move(moveHistory[currentMoveIndex]);
+                board.position(chess.fen());
+                analyzePosition();
+                updatePGNDisplay();
+            });
+
+            document.getElementById('last-move').addEventListener('click', () => {
+                if (moveHistory.length === 0) return;
+                chess.reset();
+                moveHistory.forEach(move => chess.move(move));
+                currentMoveIndex = moveHistory.length - 1;
+                board.position(chess.fen());
+                analyzePosition();
+                updatePGNDisplay();
+            });
+        });
+    </script>
+</body>
+</html>

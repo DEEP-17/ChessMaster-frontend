@@ -3,38 +3,147 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deep's Chess
-    </title>
-    <link rel="stylesheet" href="./lib/chessboardjs-1.0.0/css/chessboard-1.0.0.min.css">
-    <link rel="stylesheet" href="style.css">
+    <title>ChessMaster</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' fill='none' stroke='%23FFD700' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' viewBox='0 0 24 24'%3E%3Cpath d='M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14'/%3E%3C/svg%3E">
+    <link rel="stylesheet" href="index.css">
 </head>
 <body>
-    <p id="total_players">Total Players:0</p>
-    <h2 style="text-align: center;">Chess Game</h2>
-    <div id="main-element" class="display-f">
-        <div id="Board1" style="width: 544px"></div>
-        <div id="buttonsparent">
-            <button id="play-stockfish">Play against Stockfish</button>
-            <button data-time="10"class="timer-button">10 min</button>
-            <button data-time="15"class="timer-button">15 min</button>
-            <button data-time="20"class="timer-button">20 min</button>
-            <br>
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <svg xmlns="http://www.w3.org/2000/svg" class="crown-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m2 4 3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14"/></svg>
+                <span>ChessMaster</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+            <button class="sign-in-btn">Sign In</button>
         </div>
-        <div id="chat-container" class="chat-container">
-            <div id="chat-box" class="chat-box"></div>
-            <input type="text" id="chat-input" class="chat-input" placeholder="Type a message">
-            <button id="send-button" class="send-button">Send</button>
-        </div>
-    </div>
-    <!-- Add this inside the <body> tag, below the existing elements -->
+    </header>
 
-    <div id="pgn" style="white-space: pre-wrap; font-family: monospace; margin-top: 10px;"></div>
-     <p id="waiting_text" class="display-none">Waiting for opponent to join...</p>
-<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js" integrity="sha512-xRllwz2gdZciIB+AkEbeq+gVhX8VB8XsfqeFbUh+SzHlN96dEduwtTuVuc2u9EROlmW9+yhRlxjif66ORpsgVA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="./lib/chessboardjs-1.0.0/js/chessboard-1.0.0.min.js"></script>
-    <script src="https://cdn.socket.io/4.8.1/socket.io.min.js" integrity="sha384-mkQ3/7FUtcGyoppY6bz/PORYoGqOl7/aSUMn2ymDOJcapfS6PHqxhRTMh1RR0Q6+" crossorigin="anonymous"></script>
-    <script src="script.js"></script>
-    <script src="stockfish.js"></script>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-bg">
+            <img src="https://4kwallpapers.com/images/walls/thumbs_3t/16638.jpg" alt="Chess Background">
+        </div>
+        <div class="container hero-content">
+            <div id="chess-piece" class="chess-piece"></div>
+            <h1>Welcome to ChessMaster</h1>
+            <p>Experience the royal game like never before with advanced AI, interactive lessons, and global multiplayer.</p>
+            <div class="hero-buttons">
+                <a href="game.html" class="primary-btn">Play Now</a>
+                <button class="secondary-btn" onclick="window.location.href='rules.html'">Learn More</button>
+            </div>
+            <div class="scroll-indicator">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <h2>Why Choose <span class="highlight">ChessMaster</span></h2>
+            <div class="feature-cards">
+    <a href="play_against_stockfish.html" class="feature-card" style="background-image: url('https://4kwallpapers.com/images/walls/thumbs_3t/16659.png');">
+        <div class="feature-card-content">
+            <div class="feature-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313-12.454z"></path><path d="M17 4a2 2 0 0 0 2 2a2 2 0 0 0-2 2a2 2 0 0 0-2-2a2 2 0 0 0 2-2"></path><path d="M19 11h2m-1-1v2"></path></svg>
+            </div>
+            <h3>Advanced AI</h3>
+            <p>Challenge yourself against our state-of-the-art chess engine powered by advanced machine learning algorithms.</p>
+        </div>
+    </a>
+    
+    <a href="evaluate.html" class="feature-card" style="background-image: url('https://images.unsplash.com/photo-1529699211952-734e80c4d42b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80');">
+        <div class="feature-card-content">
+            <div class="feature-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"></path></svg>
+            </div>
+            <h3>Evaluate Your Games</h3>
+            <p>Master chess strategies through our comprehensive library of interactive lessons and daily puzzles.</p>
+        </div>
+    </a>
+    <a href="play_and_pass.html" class="feature-card" style="background-image: url('  https://images.unsplash.com/photo-1586165368502-1bad197a6461?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1458&q=80');">
+        <div class="feature-card-content">
+            <div class="feature-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+            </div>
+            <h3>Pass and Play</h3>
+            <p>Connect with players worldwide, participate in tournaments, and climb the global leaderboard.</p>
+        </div>
+    </a>
+</div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <h2>About ChessMaster</h2>
+            <p class="about-text">
+                ChessMaster is more than just a chess platform - it's a comprehensive ecosystem designed 
+                to help players of all levels master the royal game. Whether you're a beginner learning 
+                the basics or a seasoned player aiming for grandmaster status, our platform provides the 
+                tools and community you need to succeed.
+            </p>
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-number">1M+</div>
+                    <div class="stat-label">Active Players</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">50K+</div>
+                    <div class="stat-label">Daily Matches</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">100+</div>
+                    <div class="stat-label">Grandmasters</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <h2>Ready to Begin Your Journey?</h2>
+            <p>Join thousands of players worldwide and start your chess mastery today.</p>
+            <button class="primary-btn">Get Started Now</button>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="logo">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="crown-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m2 4 3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14"/></svg>
+                    <span>ChessMaster</span>
+                </div>
+                <div class="social-links">
+                    <a href="#" class="social-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+                    </a>
+                    <a href="#" class="social-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
+                    </a>
+                    <a href="#" class="social-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                    </a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; <span id="current-year"></span> ChessMaster. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="index.js"></script>
 </body>
 </html>
