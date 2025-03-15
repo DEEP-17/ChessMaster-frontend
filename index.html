@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ChessMaster</title>
+   
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' fill='none' stroke='%23FFD700' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' viewBox='0 0 24 24'%3E%3Cpath d='M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14'/%3E%3C/svg%3E">
     <link rel="stylesheet" href="index.css">
 </head>
 <body>
@@ -22,11 +22,12 @@
                     <li><a href="#contact">Contact</a></li>
                 </ul>
             </nav>
-            <button class="sign-in-btn">Sign In</button>
+            <div class="auth-container" style="position: relative;">
+                <div id="profile-section"></div>
+            </div>
         </div>
     </header>
 
-    <!-- Hero Section -->
     <section class="hero">
         <div class="hero-bg">
             <img src="https://4kwallpapers.com/images/walls/thumbs_3t/16638.jpg" alt="Chess Background">
@@ -36,53 +37,50 @@
             <h1>Welcome to ChessMaster</h1>
             <p>Experience the royal game like never before with advanced AI, interactive lessons, and global multiplayer.</p>
             <div class="hero-buttons">
-                <a href="game.html" class="primary-btn">Play Now</a>
-                <button class="secondary-btn" onclick="window.location.href='rules.html'">Learn More</button>
+                <a href="other than landing/game.html" class="primary-btn">Play Now</a>
+                <button class="secondary-btn">Learn More</button>
             </div>
             <div class="scroll-indicator">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
             </div>
         </div>
     </section>
-
-    <!-- Features Section -->
     <section id="features" class="features">
         <div class="container">
             <h2>Why Choose <span class="highlight">ChessMaster</span></h2>
             <div class="feature-cards">
-    <a href="play_against_stockfish.html" class="feature-card" style="background-image: url('https://4kwallpapers.com/images/walls/thumbs_3t/16659.png');">
-        <div class="feature-card-content">
-            <div class="feature-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313-12.454z"></path><path d="M17 4a2 2 0 0 0 2 2a2 2 0 0 0-2 2a2 2 0 0 0-2-2a2 2 0 0 0 2-2"></path><path d="M19 11h2m-1-1v2"></path></svg>
+                <a href="other than landing\play_against_stockfish.html" class="feature-card" style="background-image: url('https://4kwallpapers.com/images/walls/thumbs_3t/16659.png');">
+                    <div class="feature-card-content">
+                        <div class="feature-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313-12.454z"></path><path d="M17 4a2 2 0 0 0 2 2a2 2 0 0 0-2 2a2 2 0 0 0-2-2a2 2 0 0 0 2-2"></path><path d="M19 11h2m-1-1v2"></path></svg>
+                        </div>
+                        <h3>Advanced AI</h3>
+                        <p>Challenge yourself against our state-of-the-art chess engine powered by advanced machine learning algorithms.</p>
+                    </div>
+                </a>
+                
+                <a href="other than landing\evaluate.html" class="feature-card" style="background-image: url('https://images.unsplash.com/photo-1529699211952-734e80c4d42b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80');">
+                    <div class="feature-card-content">
+                        <div class="feature-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"></path></svg>
+                        </div>
+                        <h3>Evaluate Your Games</h3>
+                        <p>Master chess strategies through our comprehensive library of interactive lessons and daily puzzles.</p>
+                    </div>
+                </a>
+                <a href="other than landing\play_and_pass.html" class="feature-card" style="background-image: url('https://images.unsplash.com/photo-1586165368502-1bad197a6461?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1458&q=80');">
+                    <div class="feature-card-content">
+                        <div class="feature-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                        </div>
+                        <h3>Pass and Play</h3>
+                        <p>Connect with players worldwide, participate in tournaments, and climb the global leaderboard.</p>
+                    </div>
+                </a>
             </div>
-            <h3>Advanced AI</h3>
-            <p>Challenge yourself against our state-of-the-art chess engine powered by advanced machine learning algorithms.</p>
-        </div>
-    </a>
-    
-    <a href="evaluate.html" class="feature-card" style="background-image: url('https://images.unsplash.com/photo-1529699211952-734e80c4d42b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80');">
-        <div class="feature-card-content">
-            <div class="feature-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"></path></svg>
-            </div>
-            <h3>Evaluate Your Games</h3>
-            <p>Master chess strategies through our comprehensive library of interactive lessons and daily puzzles.</p>
-        </div>
-    </a>
-    <a href="play_and_pass.html" class="feature-card" style="background-image: url('  https://images.unsplash.com/photo-1586165368502-1bad197a6461?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1458&q=80');">
-        <div class="feature-card-content">
-            <div class="feature-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-            </div>
-            <h3>Pass and Play</h3>
-            <p>Connect with players worldwide, participate in tournaments, and climb the global leaderboard.</p>
-        </div>
-    </a>
-</div>
         </div>
     </section>
 
-    <!-- About Section -->
     <section id="about" class="about">
         <div class="container">
             <h2>About ChessMaster</h2>
@@ -109,7 +107,6 @@
         </div>
     </section>
 
-    <!-- CTA Section -->
     <section class="cta">
         <div class="container">
             <h2>Ready to Begin Your Journey?</h2>
@@ -118,7 +115,6 @@
         </div>
     </section>
 
-    <!-- Footer -->
     <footer>
         <div class="container">
             <div class="footer-content">
