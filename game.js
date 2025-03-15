@@ -1,4 +1,4 @@
-const socket = io("http://localhost:3000");
+const socket = io("https://chess-game-backend-z158.onrender.com");
     let fullGamePGN = '';
      var board = null;
      var count=0;
