@@ -15,14 +15,16 @@ const socket = io("https://chess-game-backend-z158.onrender.com");
     let positionHistory = [];
     let pendingPromotion = null;
     let playerName = '';
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let result = '';
-    const length = 10;
-    for (let i = 0; i < length; i++) {
-        result += characters.charAt(Math.floor(Math.random() * characters.length));
-    }
-    console.log(result);
-    playerName =  localStorage.getItem('chessmaster_user');
+    // const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    // let result = '';
+    // const length = 10;
+    // for (let i = 0; i < length; i++) {
+    //     result += characters.charAt(Math.floor(Math.random() * characters.length));
+    // }
+    // console.log(result);
+    const userData = localStorage.getItem('chessmaster_user');
+    const user = JSON.parse(userData);
+    playerName =  user.username;
     socket.emit('register_name', playerName);
     // Sounds
     const moveSound = new Audio('./sounds/move.mp3');
