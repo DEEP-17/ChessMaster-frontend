@@ -1,5 +1,4 @@
-const socket = io("https://chess-game-backend-z158.onrender.com");
-    let fullGamePGN = '';
+const socket = io("http://localhost:3000");
      var board = null;
      var count=0;
     var game = new Chess();
@@ -16,7 +15,6 @@ const socket = io("https://chess-game-backend-z158.onrender.com");
     let positionHistory = [];
     let pendingPromotion = null;
     let playerName = '';
-    let gamePGN = '';
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     let result = '';
     const length = 10;
@@ -167,11 +165,17 @@ const socket = io("https://chess-game-backend-z158.onrender.com");
         }
 
         socket.emit('sync_state', {
-            fen: game.fen(),
-            turn: game.turn(),
-            whiteTime: document.getElementById('player-clock').textContent,
-            blackTime: document.getElementById('opponent-clock').textContent
-        });
+        fen: game.fen(),
+        turn: game.turn(),
+        whiteTime: document.getElementById('player-clock').textContent,
+        blackTime: document.getElementById('opponent-clock').textContent,
+        pgn: game.pgn(),
+        move: {
+            from: pendingPromotion.source,
+            to: pendingPromotion.target,
+            promotion: promotionPiece
+        }
+    });
 
         moveHistory.push(game.fen());
         currentMoveIndex = moveHistory.length - 1;
@@ -209,10 +213,7 @@ const socket = io("https://chess-game-backend-z158.onrender.com");
         } else {
             moveSound.play();
         }
-        moveHistory.push(game.fen());
-  currentMoveIndex = moveHistory.length - 1;
-  fullGamePGN = game.pgn();
-  gamePGN = game.pgn();
+
         if (recordPosition()) {
             showGameResultModal(null, 'Draw by threefold repetition');
             socket.emit('game_over', 'draw');
@@ -237,12 +238,7 @@ const socket = io("https://chess-game-backend-z158.onrender.com");
   turn: game.turn(),
   whiteTime: document.getElementById('player-clock').textContent,
   blackTime: document.getElementById('opponent-clock').textContent,
-  pgn: game.pgn(), // Add this line
-  move: {
-      from: source,
-      to: target,
-      promotion: move.promotion
-    }
+  pgn: game.pgn() // Add this line
 });
 
 
@@ -291,41 +287,33 @@ const socket = io("https://chess-game-backend-z158.onrender.com");
 //   document.getElementById('pgn-display').textContent = cleanPgn || 'PGN will appear here';
 // }
 function updatePGNDisplay() {
-    let pgn = fullGamePGN || game.pgn();
-    
-    // Remove SetUp and FEN tags
-    pgn = pgn.replace(/\[SetUp "[^"]*"\]\s*/g, '')
-            .replace(/\[FEN "[^"]*"\]\s*/g, '');
-    
-    // Format move numbers and moves
-    pgn = pgn.replace(/(\d+\.)(\s*\.\.\.)?\s*([^\s]+)/g, (match, number, ellipsis, move) => {
-        if (ellipsis) {
-            return `${number}... ${move} `;
-        }
-        return `${number} ${move} `;
-    });
-
-    const moves = pgn.trim().split(/\s+/);
-    const formattedPgn = [];
-    for (let i = 0; i < moves.length; i += 3) {
-        const line = moves.slice(i, i + 3).join(' ');
-        if (line.trim()) {
-            formattedPgn.push(line);
-        }
+  let pgn = game.pgn();
+  
+  // Remove SetUp and FEN tags
+  pgn = pgn.replace(/\[SetUp "[^"]*"\]\s*/g, '')
+           .replace(/\[FEN "[^"]*"\]\s*/g, '');
+  
+  // Format move numbers and moves
+  pgn = pgn.replace(/(\d+\.)(\s*\.\.\.)?\s*([^\s]+)/g, (match, number, ellipsis, move) => {
+    if (ellipsis) {
+      return `${number}... ${move} `;
     }
+    return `${number} ${move} `;
+  });
 
-    const pgnDisplay = document.getElementById('pgn-display');
-    pgnDisplay.innerHTML = formattedPgn.join('<br>') || 'Game moves will appear here';
-    
-    // Highlight current move if navigating
-    if (currentMoveIndex >= 0 && currentMoveIndex < moveHistory.length) {
-        const moveLines = pgnDisplay.getElementsByTagName('br');
-        const currentLine = Math.floor(currentMoveIndex / 2);
-        if (moveLines[currentLine]) {
-            moveLines[currentLine].previousSibling.style.backgroundColor = 'rgba(255, 215, 0, 0.2)';
-        }
+  // Split into lines for better readability
+  const moves = pgn.trim().split(/\s+/);
+  const formattedPgn = [];
+  for (let i = 0; i < moves.length; i += 3) {
+    const line = moves.slice(i, i + 3).join(' ');
+    if (line.trim()) {
+      formattedPgn.push(line);
     }
-    pgnDisplay.scrollTop = pgnDisplay.scrollHeight;
+  }
+
+  const pgnDisplay = document.getElementById('pgn-display');
+  pgnDisplay.innerHTML = formattedPgn.join('<br>') || 'Game moves will appear here';
+  pgnDisplay.scrollTop = pgnDisplay.scrollHeight;
 }
 
     function formatTime(seconds) {
@@ -421,7 +409,6 @@ function updatePGNDisplay() {
             isWaitingForMatch = false;
             c_player = data.color;
             positionHistory = [];
-            fullGamePGN = '';
             console.log('Match data received:', data);
             const playerNameElement = document.getElementById('player-name');
             const opponentNameElement = document.getElementById('opponent-name');
@@ -491,7 +478,6 @@ function updatePGNDisplay() {
         moveHistory.push(data.fen);
         if (data.pgn) {
     // Load the PGN into the game object
-    fullGamePGN = data.pgn;
     game.load_pgn(data.pgn);
   }
   updatePGNDisplay();
@@ -687,111 +673,53 @@ function updatePGNDisplay() {
                 endSound.play();
             }
         });
-        function navigateToMove(index) {
-    if (index === -1) {
-        game.reset();
-        board.position('start');
-    } else if (index >= 0 && index < moveHistory.length) {
-        game.load(moveHistory[index]);
-        board.position(game.fen());
-    }
-    currentMoveIndex = index;
-    updatePGNDisplay(); // This will now show the full PGN with current move highlighted
-}
-        // document.getElementById('first-move').addEventListener('click', () => {
-        //     if (currentMoveIndex > -1) {
-        //         game.reset();
-        //         board.position('start');
-        //         currentMoveIndex = -1;
-        //         updatePGNDisplay();
-        //     }
-        // });
 
-        // document.getElementById('last-move').addEventListener('click', () => {
-        //     if (currentMoveIndex < moveHistory.length - 1) {
-        //         while (currentMoveIndex < moveHistory.length - 1) {
-        //             currentMoveIndex++;
-        //             game.load(moveHistory[currentMoveIndex]);
-        //         }
-        //         board.position(game.fen());
-        //         updatePGNDisplay();
-        //     }
-        // });
-
-        // document.getElementById('prev-move').addEventListener('click', () => {
-        //     if (currentMoveIndex > -1) {
-        //         currentMoveIndex--;
-        //         if (currentMoveIndex === -1) {
-        //             game.reset();
-        //             board.position('start');
-        //         } else {
-        //             game.load(moveHistory[currentMoveIndex]);
-        //             board.position(game.fen());
-        //         }
-        //         updatePGNDisplay();
-        //     }
-        // });
-
-        // document.getElementById('next-move').addEventListener('click', () => {
-        //     if (currentMoveIndex < moveHistory.length - 1) {
-        //         currentMoveIndex++;
-        //         game.load(moveHistory[currentMoveIndex]);
-        //         board.position(game.fen());
-        //         updatePGNDisplay();
-        //     }
-        // });
         document.getElementById('first-move').addEventListener('click', () => {
-  if (currentMoveIndex > -1) {
-    navigateToMove(-1);
-  }
-});
-
-document.getElementById('last-move').addEventListener('click', () => {
-  if (currentMoveIndex < moveHistory.length - 1) {
-    navigateToMove(moveHistory.length - 1);
-  }
-});
-
-document.getElementById('prev-move').addEventListener('click', () => {
-  if (currentMoveIndex > -1) {
-    navigateToMove(currentMoveIndex - 1);
-  }
-});
-
-document.getElementById('next-move').addEventListener('click', () => {
-  if (currentMoveIndex < moveHistory.length - 1) {
-    navigateToMove(currentMoveIndex + 1);
-  }
-});
-        // Replace the existing copy-pgn event listener with this:
-document.getElementById('copy-pgn').addEventListener('click', () => {
-    // Use fullGamePGN if it exists, otherwise fall back to game.pgn()
-    let pgnToCopy = fullGamePGN || game.pgn();
-    
-    // Clean up the PGN by removing SetUp and FEN tags
-    pgnToCopy = pgnToCopy.replace(/\[SetUp "[^"]*"\]\s*/g, '')
-                        .replace(/\[FEN "[^"]*"\]\s*/g, '');
-    
-    // Attempt to copy to clipboard
-    navigator.clipboard.writeText(pgnToCopy)
-        .then(() => {
-            alert('PGN copied to clipboard!');
-        })
-        .catch(err => {
-            console.error('Failed to copy PGN: ', err);
-            // Fallback method if clipboard API fails
-            const textarea = document.createElement('textarea');
-            textarea.value = pgnToCopy;
-            document.body.appendChild(textarea);
-            textarea.select();
-            try {
-                document.execCommand('copy');
-                alert('PGN copied to clipboard!');
-            } catch (fallbackErr) {
-                console.error('Fallback copy failed: ', fallbackErr);
-                alert('Failed to copy PGN. Please copy it manually from the display.');
+            if (currentMoveIndex > -1) {
+                game.reset();
+                board.position('start');
+                currentMoveIndex = -1;
+                updatePGNDisplay();
             }
-            document.body.removeChild(textarea);
         });
-});
+
+        document.getElementById('last-move').addEventListener('click', () => {
+            if (currentMoveIndex < moveHistory.length - 1) {
+                while (currentMoveIndex < moveHistory.length - 1) {
+                    currentMoveIndex++;
+                    game.load(moveHistory[currentMoveIndex]);
+                }
+                board.position(game.fen());
+                updatePGNDisplay();
+            }
+        });
+
+        document.getElementById('prev-move').addEventListener('click', () => {
+            if (currentMoveIndex > -1) {
+                currentMoveIndex--;
+                if (currentMoveIndex === -1) {
+                    game.reset();
+                    board.position('start');
+                } else {
+                    game.load(moveHistory[currentMoveIndex]);
+                    board.position(game.fen());
+                }
+                updatePGNDisplay();
+            }
+        });
+
+        document.getElementById('next-move').addEventListener('click', () => {
+            if (currentMoveIndex < moveHistory.length - 1) {
+                currentMoveIndex++;
+                game.load(moveHistory[currentMoveIndex]);
+                board.position(game.fen());
+                updatePGNDisplay();
+            }
+        });
+
+        document.getElementById('copy-pgn').addEventListener('click', () => {
+            const cleanPgn = game.pgn().replace(/\[SetUp "1"\]\s*\[FEN "[^"]+"\]\s*/g, '');
+            navigator.clipboard.writeText(cleanPgn);
+            alert('PGN copied to clipboard!');
+        });
     });
