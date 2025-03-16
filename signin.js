@@ -80,7 +80,7 @@ let selectedRating = 400; // Default rating
                     event.target.reset();
                     
                     // Redirect to dashboard or game page
-                    // setTimeout(() => window.location.href = '/dashboard.html', 1500);
+                    setTimeout(() => window.location.href = '/index.html', 1500);
                 } else {
                     showMessage(data.message || 'Login failed', false);
                 }
