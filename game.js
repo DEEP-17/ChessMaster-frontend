@@ -22,7 +22,7 @@ const socket = io("https://chess-game-backend-z158.onrender.com");
         result += characters.charAt(Math.floor(Math.random() * characters.length));
     }
     console.log(result);
-    playerName = result;
+    playerName =  localStorage.getItem('chessmaster_user');
     socket.emit('register_name', playerName);
     // Sounds
     const moveSound = new Audio('./sounds/move.mp3');
