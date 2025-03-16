@@ -9,7 +9,11 @@ function getCurrentUser() {
         return null;
     }
 }
-
+document.getElementById('playNowBtn').addEventListener('click', function(event) {
+    event.preventDefault(); 
+    const user = getCurrentUser();
+    window.location.href = user ? 'game.html' : 'signin.html';
+});
 function updateAuthSection() {
     const user = getCurrentUser();
     const profileSection = document.getElementById('profile-section');
