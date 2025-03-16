@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChessMaster - Login & Signup</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap">
+    <link rel="stylesheet" href="signin.css">
+</head>
+<body>
+    <div class="chess-piece" style="top: 25%; left: 25%; font-size: 8rem;">♗</div>
+    <div class="chess-piece" style="top: 60%; left: 75%; font-size: 12rem;">♘</div>
+    <div class="chess-piece" style="top: 15%; right: 20%; font-size: 10rem;">♖</div>
+    <div class="chess-piece" style="bottom: 20%; left: 10%; font-size: 9rem;">♙</div>
+    
+    <div class="container">
+        <div id="loginForm">
+            <h2>ChessMaster</h2>
+            <form onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label for="loginUsername">Username</label>
+                    <input type="text" id="loginUsername" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <button type="submit">Sign in</button>
+            </form>
+            <div class="toggle-form">
+                <button class="toggle-btn" onclick="toggleForm()">Need an account? Sign up</button>
+            </div>
+        </div>
+
+        <div id="signupForm" style="display: none;">
+            <h2>Join ChessMaster</h2>
+            <form onsubmit="handleSignup(event)">
+                <div class="form-group">
+                    <label for="signupUsername">Username</label>
+                    <input type="text" id="signupUsername" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupPassword">Password</label>
+                    <input type="password" id="signupPassword" required>
+                </div>
+                <div class="form-group">
+                    <label>Select Your Level</label>
+                    <div class="rating-buttons">
+                        <button type="button" class="rating-btn" onclick="selectRating(400, this)">
+                            <span class="rating-icon">♟</span>
+                            <span class="rating-label">Beginner</span>
+                            <span class="rating-value">400</span>
+                        </button>
+                        <button type="button" class="rating-btn" onclick="selectRating(800, this)">
+                            <span class="rating-icon">♞</span>
+                            <span class="rating-label">Intermediate</span>
+                            <span class="rating-value">800</span>
+                        </button>
+                        <button type="button" class="rating-btn" onclick="selectRating(1200, this)">
+                            <span class="rating-icon">♝</span>
+                            <span class="rating-label">Advanced</span>
+                            <span class="rating-value">1200</span>
+                        </button>
+                        <button type="button" class="rating-btn" onclick="selectRating(1600, this)">
+                            <span class="rating-icon">♛</span>
+                            <span class="rating-label">Expert</span>
+                            <span class="rating-value">1600</span>
+                        </button>
+                    </div>
+                    <input type="hidden" id="selectedRating" name="rating" value="400">
+                </div>
+                <button type="submit">Sign up</button>
+            </form>
+            <div class="toggle-form">
+                <button class="toggle-btn" onclick="toggleForm()">Already have an account? Sign in</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="notifications-container" id="notificationsContainer"></div>
+    <script src="signin.js"></script>
+</body>
+</html>
