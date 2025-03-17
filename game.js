@@ -792,7 +792,6 @@ function showGameResultModal(isWinner, reason = '') {
     modal.style.display = 'flex';
     endSound.play();
 
-    // Emit game result to backend
     socket.emit('update_game_result', {
         playerName: playerName,
         color: c_player,
@@ -1019,6 +1018,11 @@ function updatePGNDisplay() {
     pgnDisplay.scrollTop = pgnDisplay.scrollHeight;
 }
 
+function parseTimeToSeconds(timeStr) {
+    const [minutes, seconds] = timeStr.split(':').map(Number);
+    return (minutes * 60) + seconds;
+}
+
 function formatTime(seconds) {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
@@ -1065,7 +1069,11 @@ function startTimer(seconds, elementId, isOpponent, onComplete) {
             return timeLeft;
         },
         setTime: function(newTime) {
-            timeLeft = parseInt(newTime);
+            if (typeof newTime === 'string') {
+                timeLeft = parseTimeToSeconds(newTime);
+            } else {
+                timeLeft = parseInt(newTime);
+            }
             if (isNaN(timeLeft)) {
                 console.error('Invalid time value in setTime:', newTime);
                 timeLeft = 600;
@@ -1181,11 +1189,11 @@ socket.on('sync_state_from_server', function(data) {
     }
 
     if (c_player === 'w') {
-        timerinstance.setTime(parseInt(data.whiteTime));
-        opponentTimerInstance.setTime(parseInt(data.blackTime));
+        timerinstance.setTime(data.whiteTime);
+        opponentTimerInstance.setTime(data.blackTime);
     } else {
-        timerinstance.setTime(parseInt(data.blackTime));
-        opponentTimerInstance.setTime(parseInt(data.whiteTime));
+        timerinstance.setTime(data.blackTime);
+        opponentTimerInstance.setTime(data.whiteTime);
     }
 });
 
