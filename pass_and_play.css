@@ -220,6 +220,86 @@ button {
     transform: translateY(-1px);
 }
 
+.promotion-dialog {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--card-bg);
+    padding: 1.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    text-align: center;
+}
+
+.promotion-dialog h2 {
+    margin-bottom: 1rem;
+    color: var(--text-light);
+}
+
+.promotion-pieces {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.promotion-piece {
+    background: var(--card-hover);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.promotion-piece:hover {
+    background: var(--primary-color);
+    transform: translateY(-2px);
+}
+
+.promotion-piece img {
+    width: 50px;
+    height: 50px;
+}
+
+.promotion-piece span {
+    color: var(--text-light);
+    font-weight: 500;
+}
+
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+.legal-move-dot {
+    width: 20px;
+    height: 20px;
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+}
+
+.square-55d63 {
+    position: relative !important;
+}
+
 @media (max-width: 768px) {
     body {
         padding: 1rem;

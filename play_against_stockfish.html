@@ -33,9 +33,30 @@
     <div class="container">
         <div class="board-container">
             <div id="board"></div>
-            <!-- <div class="clock" id="player-clock">Player: 05:00</div>
-            <div class="clock" id="stockfish-clock">Stockfish: 05:00</div> -->
             <button id="resign-button">Resign Game</button>
+            
+            <div class="promotion-dialog" id="promotion-dialog">
+                <h2>Choose Promotion Piece</h2>
+                <div class="promotion-options">
+                    <button class="promotion-option" data-piece="q">
+                        <img src="images/pieces/wQ.png" alt="Queen">
+                        <span>Queen</span>
+                    </button>
+                    <button class="promotion-option" data-piece="r">
+                        <img src="images/pieces/wR.png" alt="Rook">
+                        <span>Rook</span>
+                    </button>
+                    <button class="promotion-option" data-piece="n">
+                        <img src="images/pieces/wN.png" alt="Knight">
+                        <span>Knight</span>
+                    </button>
+                    <button class="promotion-option" data-piece="b">
+                        <img src="images/pieces/wB.png" alt="Bishop">
+                        <span>Bishop</span>
+                    </button>
+                </div>
+            </div>
+            <div class="overlay" id="overlay"></div>
         </div>
         <div class="pgn-container">
             <div class="pgn-display" id="pgn-display">Game moves will appear here...</div>
@@ -51,6 +72,8 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.js"></script>
+    <script src="src/js/sounds.js"></script>
+    <script src="src/js/moveHighlighting.js"></script>
     <script src="play_against_stockfish.js"></script>
 </body>
 </html>

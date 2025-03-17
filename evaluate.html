@@ -31,6 +31,28 @@
                         <span id="black-eval"></span>
                     </div>
                 </div>
+                <div class="promotion-dialog" id="promotion-dialog">
+                    <h2>Choose Promotion Piece</h2>
+                    <div class="promotion-options">
+                        <button class="promotion-option" data-piece="q">
+                            <img src="images/pieces/wQ.png" alt="Queen">
+                            <span>Queen</span>
+                        </button>
+                        <button class="promotion-option" data-piece="r">
+                            <img src="images/pieces/wR.png" alt="Rook">
+                            <span>Rook</span>
+                        </button>
+                        <button class="promotion-option" data-piece="n">
+                            <img src="images/pieces/wN.png" alt="Knight">
+                            <span>Knight</span>
+                        </button>
+                        <button class="promotion-option" data-piece="b">
+                            <img src="images/pieces/wB.png" alt="Bishop">
+                            <span>Bishop</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="overlay" id="overlay"></div>
             </div>
             <div class="pgn-section">
                 <div class="pgn-display" id="pgn-display">Game moves will appear here...</div>
@@ -58,9 +80,8 @@
             </div>
         </div>
     </div>
-
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js" integrity="sha512-xRllwz2gdZciIB+AkEbeq+gVhX8VB8XsfqeFbUh+SzHlN96dEduwtTuVuc2u9EROlmW9+yhRlxjif66ORpsgVA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.js"></script>
     <script src="evaluate.js"></script>
 </body>

@@ -92,6 +92,7 @@ button:hover {
     display: flex;
     gap: 2rem;
     align-items: flex-start;
+    position: relative;
 }
 
 .pgn-section {
@@ -216,6 +217,97 @@ button:hover {
     white-space: pre-wrap;
     max-height: 200px;
     overflow-y: auto;
+}
+
+/* Legal move highlighting styles */
+.legal-move-dot {
+    width: 20px;
+    height: 20px;
+    background-color: rgba(76, 175, 80, 0.3);
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+}
+
+.square-55d63 {
+    position: relative !important;
+}
+
+/* Promotion dialog styles */
+.promotion-dialog {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(26, 26, 46, 0.95);
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(76, 175, 80, 0.5);
+}
+
+.promotion-dialog.active {
+    display: block;
+}
+
+.promotion-options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.promotion-option {
+    background: rgba(76, 175, 80, 0.1);
+    border: 2px solid rgba(76, 175, 80, 0.3);
+    padding: 1rem;
+    border-radius: 0.75rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.promotion-option:hover {
+    background: rgba(76, 175, 80, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(76, 175, 80, 0.2);
+}
+
+.promotion-option img {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+}
+
+.promotion-option span {
+    color: #fff;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+    z-index: 999;
+}
+
+.overlay.active {
+    display: block;
 }
 
 @media (max-width: 1024px) {
