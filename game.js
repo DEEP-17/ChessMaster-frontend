@@ -1,4 +1,5 @@
-const socket = io("https://chess-game-backend-z158.onrender.com");
+const baseURL = process.env.SERVER_URL;
+const socket = io(`${baseURL}`);
 var board = null;
 var count = 0;
 var game = new Chess();
@@ -19,31 +20,25 @@ const userData = localStorage.getItem('chessmaster_user');
 const user = JSON.parse(userData);
 playerName = user.username;
 socket.emit('register_name', playerName);
-
-// Sounds
 const moveSound = new Audio('./sounds/move.mp3');
 const captureSound = new Audio('./sounds/capture.mp3');
 const checkSound = new Audio('./sounds/check.mp3');
 const castleSound = new Audio('./sounds/castle.mp3');
 const startSound = new Audio('./sounds/start.mp3');
 const endSound = new Audio('./sounds/end.mp3');
-
 function recordPosition() {
     const position = game.fen().split(' ').slice(0, 4).join(' ');
     positionHistory.push(position);
     return checkThreefoldRepetition(position);
 }
-
 function checkThreefoldRepetition(position) {
     return positionHistory.filter(pos => pos === position).length === 2;
 }
-
 function showGameResultModal(isWinner, reason = '') {
     const modal = document.getElementById('game-result-modal');
     const title = document.getElementById('result-title');
     const icon = document.getElementById('result-icon');
     const message = document.getElementById('result-message');
-
     let resultType = '';
     if (isWinner === null) {
         title.textContent = 'Draw';
@@ -61,10 +56,8 @@ function showGameResultModal(isWinner, reason = '') {
         message.textContent = reason ? `You lost. ${reason}` : 'Better luck next time!';
         resultType = 'loss';
     }
-
     modal.style.display = 'flex';
     endSound.play();
-
     socket.emit('update_game_result', {
         playerName: playerName,
         color: c_player,
@@ -72,12 +65,10 @@ function showGameResultModal(isWinner, reason = '') {
         timeControl: currentmatchtime,
         reason: reason
     });
-
     document.querySelector('.modal-close').onclick = () => {
         modal.style.display = 'none';
         window.location.reload();
     };
-
     modal.onclick = (e) => {
         if (e.target === modal) {
             modal.style.display = 'none';
@@ -85,31 +76,26 @@ function showGameResultModal(isWinner, reason = '') {
         }
     };
 }
-
 import { quotes } from './chess_quotes.js';
 function displayRandomQuote() {
     const randomIndex = Math.floor(Math.random() * quotes.length);
     const [quote, author] = quotes[randomIndex];
     document.getElementById("waiting_text").innerHTML = `Waiting for Opponent...<br><br>"${quote}"<br><span style="font-weight: bold;">-- ${author}</span>`;
 }
-
 function removeHighlights() {
     $('#Board1 .square-55d63').removeClass('highlight check');
     $('#Board1 .square-55d63').find('.legal-dot').remove();
 }
-
 function highlightSquare(square) {
     const $square = $('#Board1 .square-' + square);
     if ($square.find('.legal-dot').length === 0) {
         $square.append('<div class="legal-dot"></div>');
     }
 }
-
 function showLegalMoves(piece, source) {
     const moves = game.moves({ square: source, verbose: true });
     moves.forEach(move => highlightSquare(move.to));
 }
-
 function onDragStart(source, piece, position, orientation) {
     if (game.turn() !== c_player) return false;
     if (game.game_over()) return false;
@@ -120,7 +106,6 @@ function onDragStart(source, piece, position, orientation) {
     removeHighlights();
     showLegalMoves(piece, source);
 }
-
 function showPromotionModal(color) {
     const modal = document.querySelector('.promotion-modal');
     const pieces = modal.querySelectorAll('.promotion-piece');
@@ -131,23 +116,18 @@ function showPromotionModal(color) {
     modal.style.display = 'flex';
     pieces.forEach(piece => piece.onclick = () => handlePromotion(piece.dataset.piece));
 }
-
 function handlePromotion(promotionPiece) {
     const modal = document.querySelector('.promotion-modal');
     modal.style.display = 'none';
     if (!pendingPromotion) return;
-
     const move = game.move({
         from: pendingPromotion.source,
         to: pendingPromotion.target,
         promotion: promotionPiece
     });
-
     if (move === null) return 'snapback';
-
     captureSound.play();
     board.position(game.fen());
-
     if (recordPosition()) {
         showGameResultModal(null, 'Draw by threefold repetition');
         socket.emit('update_game_result', {
@@ -159,12 +139,10 @@ function handlePromotion(promotionPiece) {
         });
         return false;
     }
-
     if (timerinstance) {
         timerinstance.pause();
         if (opponentTimerInstance) opponentTimerInstance.start();
     }
-
     socket.emit('sync_state', {
         fen: game.fen(),
         turn: game.turn(),
@@ -173,32 +151,26 @@ function handlePromotion(promotionPiece) {
         pgn: game.pgn(),
         move: { from: pendingPromotion.source, to: pendingPromotion.target, promotion: promotionPiece }
     });
-
     moveHistory.push(game.fen());
     currentMoveIndex = moveHistory.length - 1;
     updatePGNDisplay();
     updateStatus();
     pendingPromotion = null;
 }
-
 function onDrop(source, target) {
     removeHighlights();
-
     if ((game.turn() === 'w' && source.charAt(1) === '7' && target.charAt(1) === '8') ||
         (game.turn() === 'b' && source.charAt(1) === '2' && target.charAt(1) === '1')) {
         pendingPromotion = { source, target };
         showPromotionModal(game.turn());
         return;
     }
-
     const move = game.move({ from: source, to: target });
     if (move === null) return 'snapback';
-
     if (move.flags.includes('c')) captureSound.play();
     else if (move.flags.includes('k') || move.flags.includes('q')) castleSound.play();
     else if (game.in_check()) checkSound.play();
     else moveSound.play();
-
     if (recordPosition()) {
         showGameResultModal(null, 'Draw by threefold repetition');
         socket.emit('update_game_result', {
@@ -210,12 +182,10 @@ function onDrop(source, target) {
         });
         return false;
     }
-
     if (timerinstance) {
         timerinstance.pause();
         if (opponentTimerInstance) opponentTimerInstance.start();
     }
-
     socket.emit('sync_state', {
         fen: game.fen(),
         turn: game.turn(),
@@ -223,22 +193,18 @@ function onDrop(source, target) {
         blackTime: document.getElementById('opponent-clock').textContent,
         pgn: game.pgn()
     });
-
     moveHistory.push(game.fen());
     currentMoveIndex = moveHistory.length - 1;
     updatePGNDisplay();
     updateStatus();
     return false;
 }
-
 function onSnapEnd() {
     board.position(game.fen());
 }
-
 function updateStatus() {
     let status = '';
     const moveColor = game.turn() === 'b' ? 'Black' : 'White';
-
     if (game.in_checkmate()) {
         const winner = game.turn() === 'w' ? 'Black' : 'White';
         const isWinner = (c_player === 'b' && winner === 'Black') || 
@@ -272,7 +238,6 @@ function updateStatus() {
     if ($status.length) $status.html(status);
     updatePGNDisplay();
 }
-
 function updatePGNDisplay() {
     let pgn = game.pgn();
     pgn = pgn.replace(/\[SetUp "[^"]*"\]\s*/g, '').replace(/\[FEN "[^"]*"\]\s*/g, '');
@@ -290,18 +255,15 @@ function updatePGNDisplay() {
     pgnDisplay.innerHTML = formattedPgn.join('<br>') || 'Game moves will appear here';
     pgnDisplay.scrollTop = pgnDisplay.scrollHeight;
 }
-
 function parseTimeToSeconds(timeStr) {
     const [minutes, seconds] = timeStr.split(':').map(Number);
     return (minutes * 60) + seconds;
 }
-
 function formatTime(seconds) {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
     return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
 }
-
 function startTimer(seconds, elementId, isOpponent, onComplete) {
     let timeLeft = parseInt(seconds);
     const element = document.getElementById(elementId);
@@ -356,13 +318,11 @@ function startTimer(seconds, elementId, isOpponent, onComplete) {
     };
     return timer;
 }
-
 function highlightKingInCheck() {
     const turn = game.turn();
     const kingSquare = $(`#Board1 .square-${game.fen().split(' ')[0].match(new RegExp(`[${turn}K]`, 'g'))[0]}`);
     kingSquare.addClass('check');
 }
-
 board = Chessboard('Board1', {
     draggable: true,
     position: 'start',
@@ -370,15 +330,12 @@ board = Chessboard('Board1', {
     onDrop: onDrop,
     onSnapEnd: onSnapEnd
 });
-
 socket.on('totalplayers', function(data) {
     $('#total_players').html('Total Players: ' + data);
 });
-
 const chatBox = document.getElementById('chat-container');
 chatBox.style.display = 'none';
 const board1 = document.getElementById('Board1');
-
 socket.on('match_made', (data) => {
     if (isWaitingForMatch) {
         isWaitingForMatch = false;
@@ -403,7 +360,6 @@ socket.on('match_made', (data) => {
         chatBox.style.display = 'block';
         board1.style.display = 'block';
         document.querySelector('.pgn-container').style.display = 'block';
-
         game.reset();
         board.clear();
         board.start();
@@ -412,7 +368,6 @@ socket.on('match_made', (data) => {
         moveHistory = [];
         currentMoveIndex = -1;
         updatePGNDisplay();
-
         const timeInSeconds = parseInt(data.time) * 60;
         timerinstance = startTimer(timeInSeconds, 'player-clock', false, () => {
             showGameResultModal(false, "Time's up!");
@@ -424,7 +379,6 @@ socket.on('match_made', (data) => {
                 reason: "Time's up"
             });
         });
-        
         opponentTimerInstance = startTimer(timeInSeconds, 'opponent-clock', true, () => {
             showGameResultModal(true, "Opponent's time is up!");
             socket.emit('update_game_result', {
@@ -435,15 +389,12 @@ socket.on('match_made', (data) => {
                 reason: "Opponent's time is up"
             });
         });
-
         if (game.turn() === c_player) timerinstance.start();
         else opponentTimerInstance.start();
-
         const boardSquares = document.querySelectorAll('.square-55d63');
         boardSquares.forEach(square => square.style.transition = 'background 0.3s ease');
     }
 });
-
 socket.on('sync_state_from_server', function(data) {
     game.load(data.fen);
     board.position(data.fen);
@@ -452,7 +403,6 @@ socket.on('sync_state_from_server', function(data) {
     updatePGNDisplay();
     currentMoveIndex = moveHistory.length - 1;
     updateStatus();
-
     if (game.turn() === c_player) {
         if (timerinstance) timerinstance.start();
         if (opponentTimerInstance) opponentTimerInstance.pause();
@@ -460,7 +410,6 @@ socket.on('sync_state_from_server', function(data) {
         if (timerinstance) timerinstance.pause();
         if (opponentTimerInstance) opponentTimerInstance.start();
     }
-
     if (c_player === 'w') {
         timerinstance.setTime(data.whiteTime);
         opponentTimerInstance.setTime(data.blackTime);
@@ -469,7 +418,6 @@ socket.on('sync_state_from_server', function(data) {
         opponentTimerInstance.setTime(data.whiteTime);
     }
 });
-
 socket.on('game_over_from_server', function(data) {
     if (typeof data === 'string') {
         if (data === 'disconnection') {
@@ -484,7 +432,6 @@ socket.on('game_over_from_server', function(data) {
     }
     endSound.play();
 });
-
 function startMatchWaiting() {
     setTimeout(() => {
         count++;
@@ -497,7 +444,6 @@ function startMatchWaiting() {
         }
     }, 30000);
 }
-
 function handleButtonClick(event) {
     if (isWaitingForMatch) {
         console.log('Already waiting for a match');
@@ -512,11 +458,9 @@ function handleButtonClick(event) {
     $('#waiting_text').show();
     startMatchWaiting();
 }
-
 document.addEventListener('DOMContentLoaded', () => {
     const themeOptions = document.querySelectorAll('.theme-option');
     const boardContainer = document.getElementById('Board1');
-
     function setTheme(theme) {
         boardContainer.classList.remove('board-theme-wooden', 'board-theme-emerald', 'board-theme-midnight', 
             'board-theme-royal', 'board-theme-neon', 'board-theme-sunset', 
@@ -525,17 +469,14 @@ document.addEventListener('DOMContentLoaded', () => {
         themeOptions.forEach(option => option.classList.toggle('active', option.dataset.theme === theme));
         localStorage.setItem('chessTheme', theme);
     }
-
     const savedTheme = localStorage.getItem('chessTheme') || 'wooden';
     setTheme(savedTheme);
-
     themeOptions.forEach(option => {
         option.addEventListener('click', () => {
             const theme = option.dataset.theme;
             setTheme(theme);
             if (board) board.position(game.fen());
         });
-
         option.addEventListener('mouseover', (e) => {
             const tooltip = document.createElement('div');
             tooltip.className = 'theme-tooltip';
@@ -552,29 +493,23 @@ document.addEventListener('DOMContentLoaded', () => {
             option.addEventListener('mouseout', () => tooltip.remove());
         });
     });
-
     const buttons = document.getElementsByClassName('timer-button');
     for (let i = 0; i < buttons.length; i++) {
         buttons[i].addEventListener('click', handleButtonClick);
     }
-
     const chatInput = document.getElementById('chat-input');
     const sendButton = document.getElementById('send-button');
     const chatBox = document.getElementById('chat-box');
-
     sendButton.addEventListener('click', () => {
         const message = chatInput.value.trim();
         socket.emit('send_message', message);
         displayMessage('You', message);
         chatInput.value = '';
     });
-
     chatInput.addEventListener('keypress', (event) => {
         if (event.key === 'Enter') sendButton.click();
     });
-
     socket.on('receive_message', (data) => displayMessage(data.sender, data.text));
-
     function displayMessage(sender, message) {
         const messageElement = document.createElement('div');
         messageElement.className = 'chat-message';
@@ -582,7 +517,6 @@ document.addEventListener('DOMContentLoaded', () => {
         chatBox.appendChild(messageElement);
         chatBox.scrollTop = chatBox.scrollHeight;
     }
-
     document.getElementById('resign').addEventListener('click', () => {
         if (confirm('Are you sure you want to resign?')) {
             socket.emit('update_game_result', {
@@ -596,7 +530,6 @@ document.addEventListener('DOMContentLoaded', () => {
             endSound.play();
         }
     });
-
     document.getElementById('first-move').addEventListener('click', () => {
         if (currentMoveIndex > -1) {
             game.reset();
@@ -605,7 +538,6 @@ document.addEventListener('DOMContentLoaded', () => {
             updatePGNDisplay();
         }
     });
-
     document.getElementById('last-move').addEventListener('click', () => {
         if (currentMoveIndex < moveHistory.length - 1) {
             while (currentMoveIndex < moveHistory.length - 1) {
@@ -616,7 +548,6 @@ document.addEventListener('DOMContentLoaded', () => {
             updatePGNDisplay();
         }
     });
-
     document.getElementById('prev-move').addEventListener('click', () => {
         if (currentMoveIndex > -1) {
             currentMoveIndex--;
@@ -626,7 +557,6 @@ document.addEventListener('DOMContentLoaded', () => {
             updatePGNDisplay();
         }
     });
-
     document.getElementById('next-move').addEventListener('click', () => {
         if (currentMoveIndex < moveHistory.length - 1) {
             currentMoveIndex++;
@@ -635,7 +565,6 @@ document.addEventListener('DOMContentLoaded', () => {
             updatePGNDisplay();
         }
     });
-
     document.getElementById('copy-pgn').addEventListener('click', () => {
         const cleanPgn = game.pgn().replace(/\[SetUp "1"\]\s*\[FEN "[^"]+"\]\s*/g, '');
         navigator.clipboard.writeText(cleanPgn);

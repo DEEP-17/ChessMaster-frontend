@@ -17,7 +17,6 @@ document.getElementById('playNowBtn').addEventListener('click', function(event) 
 function updateAuthSection() {
     const user = getCurrentUser();
     const profileSection = document.getElementById('profile-section');
-
     if (user) {
         profileSection.innerHTML = `
             <button onclick="toggleDropdown()" class="profile-btn">
@@ -39,17 +38,14 @@ function updateAuthSection() {
         `;
     }
 }
-
 function toggleDropdown() {
     const dropdown = document.getElementById('profileDropdown');
     dropdown.classList.toggle('active');
 }
-
 function handleLogout() {
     localStorage.removeItem('chessmaster_user');
     updateAuthSection();
 }
-
 document.addEventListener('click', (event) => {
     const profileSection = document.getElementById('profile-section');
     const dropdown = document.getElementById('profileDropdown');
@@ -58,21 +54,16 @@ document.addEventListener('click', (event) => {
         dropdown.classList.remove('active');
     }
 });
-
 const chessPieces = ['♔', '♕', '♖', '♗', '♘', '♙'];
 let currentPieceIndex = 0;
 const chessPieceElement = document.getElementById('chess-piece');
-
 function updateChessPiece() {
     chessPieceElement.textContent = chessPieces[currentPieceIndex];
     currentPieceIndex = (currentPieceIndex + 1) % chessPieces.length;
 }
-
 updateChessPiece();
 setInterval(updateChessPiece, 3000);
-
 document.getElementById('current-year').textContent = new Date().getFullYear();
-
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         e.preventDefault();
@@ -85,5 +76,4 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         }
     });
 });
-
 updateAuthSection();

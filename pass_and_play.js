@@ -1,58 +1,41 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // Sound effects setup
     const moveSound = new Audio('./sounds/move.mp3');
     const captureSound = new Audio('./sounds/capture.mp3');
     const checkSound = new Audio('./sounds/check.mp3');
     const castleSound = new Audio('./sounds/castle.mp3');
     const startSound = new Audio('./sounds/start.mp3');
     const endSound = new Audio('./sounds/end.mp3');
-
     function playMoveSound(move, chess) {
         if (!move) return;
-
-        // Check if it's a castle move
         if (move.san === 'O-O' || move.san === 'O-O-O') {
             castleSound.play();
             return;
         }
-
-        // Check if it's a capture move
         if (move.captured) {
             captureSound.play();
             return;
         }
-
-        // Check if it puts opponent in check
         if (chess.in_check()) {
             checkSound.play();
             return;
         }
-
-        // Regular move
         moveSound.play();
     }
-
     function playStartSound() {
         startSound.play();
     }
-
     function playEndSound() {
         endSound.play();
     }
-
-    // Move highlighting functions
     function removeHighlightedSquares() {
         $('.square-55d63').find('.legal-move-dot').remove();
     }
-
     function highlightLegalMoves(square) {
         const moves = chess.moves({
             square: square,
             verbose: true
         });
-
         if (moves.length === 0) return;
-
         moves.forEach(move => {
             const $square = $(`#board .square-${move.to}`);
             if (!$square.find('.legal-move-dot').length) {
@@ -60,22 +43,17 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     }
-
     function onMouseoverSquare(square, piece) {
         if (!gameActive) return;
-        
         const pieceColor = piece ? piece.charAt(0) : null;
-        
         if ((currentPlayer === 'white' && pieceColor === 'w') ||
             (currentPlayer === 'black' && pieceColor === 'b')) {
             highlightLegalMoves(square);
         }
     }
-
     function onMouseoutSquare() {
         removeHighlightedSquares();
     }
-
     const board = Chessboard('board', {
         draggable: true,
         position: 'start',
@@ -85,10 +63,9 @@ document.addEventListener('DOMContentLoaded', function () {
         onMouseoutSquare: onMouseoutSquare,
         onMouseoverSquare: onMouseoverSquare
     });
-
     const chess = new Chess();
-    let whiteTime = 300; // 5 minutes in seconds
-    let blackTime = 300; // 5 minutes in seconds
+    let whiteTime = 300; 
+    let blackTime = 300; 
     let whiteClock, blackClock;
     let currentPlayer = 'white';
     let lastMove = null;
@@ -96,19 +73,15 @@ document.addEventListener('DOMContentLoaded', function () {
     let currentMoveIndex = -1;
     let gameActive = true;
     let pendingPromotion = null;
-
     function onDragStart(source, piece) {
         if (!gameActive) return false;
-
         if ((currentPlayer === 'white' && piece.search(/^b/) !== -1) ||
             (currentPlayer === 'black' && piece.search(/^w/) !== -1)) {
             return false;
         }
-
         highlightLegalMoves(source);
         return true;
     }
-
     function updatePromotionImages(color) {
         const pieces = ['queen', 'rook', 'bishop', 'knight'];
         pieces.forEach(piece => {
@@ -116,18 +89,15 @@ document.addEventListener('DOMContentLoaded', function () {
             img.src = `images/pieces/${color}${piece.charAt(0).toUpperCase()}.png`;
         });
     }
-
     function showPromotionDialog(color) {
         updatePromotionImages(color);
         document.getElementById('overlay').style.display = 'block';
         document.getElementById('promotion-dialog').style.display = 'block';
     }
-
     function hidePromotionDialog() {
         document.getElementById('overlay').style.display = 'none';
         document.getElementById('promotion-dialog').style.display = 'none';
     }
-
     document.querySelectorAll('.promotion-piece').forEach(piece => {
         piece.addEventListener('click', function() {
             if (pendingPromotion) {
@@ -137,7 +107,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     to: pendingPromotion.target,
                     promotion: promotionPiece
                 });
-
                 if (move) {
                     moveHistory = chess.history();
                     currentMoveIndex = moveHistory.length - 1;
@@ -145,8 +114,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     board.orientation(currentPlayer === 'white' ? 'black' : 'white');
                     highlightMove(pendingPromotion.source, pendingPromotion.target);
                     switchClocks();
-                    updatePGNDisplay();
-                    
+                    updatePGNDisplay();  
                     if (chess.game_over()) {
                         playEndSound();
                         stopClocks();
@@ -160,42 +128,32 @@ document.addEventListener('DOMContentLoaded', function () {
                         }
                     }
                 }
-                
                 pendingPromotion = null;
                 hidePromotionDialog();
             }
         });
     });
-
     function handleMove(source, target) {
         removeHighlightedSquares();
-        
         if (!gameActive) return 'snapback';
-
         const piece = chess.get(source);
         const isPromotion = piece && 
             piece.type === 'p' && 
             ((piece.color === 'w' && target.charAt(1) === '8') || 
              (piece.color === 'b' && target.charAt(1) === '1'));
-
         if (isPromotion) {
             pendingPromotion = { source, target };
             showPromotionDialog(piece.color === 'w' ? 'w' : 'b');
             return 'snapback';
         }
-
         const move = chess.move({
             from: source,
             to: target
         });
-
         if (move === null) {
             return 'snapback';
         }
-
-        // Play appropriate sound effect
         playMoveSound(move, chess);
-
         moveHistory = chess.history();
         currentMoveIndex = moveHistory.length - 1;
         board.position(chess.fen());
@@ -203,7 +161,6 @@ document.addEventListener('DOMContentLoaded', function () {
         highlightMove(source, target);
         switchClocks();
         updatePGNDisplay();
-
         if (chess.game_over()) {
             playEndSound();
             stopClocks();
@@ -217,7 +174,6 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
     }
-
     $('#start-game').on('click', function () {
         playStartSound();
         whiteTime = parseInt($('#white-time').val()) * 60;
@@ -234,12 +190,10 @@ document.addEventListener('DOMContentLoaded', function () {
         updatePGNDisplay();
         gameActive = true;
     });
-
     function updateClocks() {
         $('#white-clock').text(`White: ${formatTime(whiteTime)}`);
         $('#black-clock').text(`Black: ${formatTime(blackTime)}`);
     }
-
     function formatTime(seconds) {
         const minutes = Math.floor(seconds / 60);
         const secs = seconds % 60;

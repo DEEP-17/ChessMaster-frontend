@@ -1,34 +1,28 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // Sound effects setup
     const moveSound = new Audio('./sounds/move.mp3');
     const captureSound = new Audio('./sounds/capture.mp3');
     const checkSound = new Audio('./sounds/check.mp3');
     const castleSound = new Audio('./sounds/castle.mp3');
     const startSound = new Audio('./sounds/start.mp3');
     const endSound = new Audio('./sounds/end.mp3');
-
     function playMoveSound(move, chess) {
         if (!move) return;
-
-        // Check if it's a castle move
         if (move.san === 'O-O' || move.san === 'O-O-O') {
             castleSound.play();
             return;
         }
-
-        // Check if it's a capture move
         if (move.captured) {
             captureSound.play();
             return;
         }
 
-        // Check if it puts opponent in check
+        
         if (chess.in_check()) {
             checkSound.play();
             return;
         }
 
-        // Regular move
+        
         moveSound.play();
     }
 
@@ -40,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function () {
         endSound.play();
     }
 
-    // Move highlighting functions
+    
     function removeHighlightedSquares() {
         $('.square-55d63').find('.legal-move-dot').remove();
     }
@@ -112,7 +106,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const overlay = document.getElementById('overlay');
         const isWhite = chess.turn() === 'w';
         
-        // Update piece images based on the current player's color
+        
         const pieces = promotionDialog.querySelectorAll('.promotion-option img');
         pieces.forEach(img => {
             const piece = img.parentElement.getAttribute('data-piece');
@@ -196,7 +190,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         removeHighlightedSquares();
 
-        // Check if it's a pawn promotion move
+        
         if (isPawnPromotion(source, target)) {
             pendingMove = { from: source, to: target };
             showPromotionDialog();
@@ -206,7 +200,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const move = chess.move({ from: source, to: target });
         if (!move) return 'snapback';
 
-        // Play appropriate sound effect
+        
         playMoveSound(move, chess);
 
         moveHistory = chess.history();
