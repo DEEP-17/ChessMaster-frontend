@@ -1,5 +1,5 @@
 const baseURL = process.env.SERVER_URL;
-const socket = io(`${baseURL}`);
+const socket = io("https://chess-game-backend-z158.onrender.com");
 var board = null;
 var count = 0;
 var game = new Chess();

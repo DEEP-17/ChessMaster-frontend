@@ -1,5 +1,4 @@
 let selectedRating = 400; 
-const baseURL = process.env.SERVER_URL;
 function selectRating(rating, button) {
     const ratingButtons = document.querySelectorAll('.rating-btn');
     ratingButtons.forEach(btn => btn.classList.remove('selected'));
@@ -43,7 +42,7 @@ async function handleLogin(event) {
     try {
         const username = document.getElementById('loginUsername').value;
         const password = document.getElementById('loginPassword').value;
-        const response = await fetch(`${baseURL}/api/login`, {
+        const response = await fetch("https://chess-game-backend-z158.onrender.com/api/login", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -72,7 +71,7 @@ async function handleSignup(event) {
         const username = document.getElementById('signupUsername').value;
         const password = document.getElementById('signupPassword').value;
         const rating = selectedRating; 
-        const response = await fetch(`${baseURL}/api/signup`, {
+        const response = await fetch("https://chess-game-backend-z158.onrender.com/api/signup", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
