@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ChessMaster - Player Profile</title>
+    <title>ChessMaster</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23FFD700' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='m2 4 3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14'/></svg>">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body {
@@ -155,7 +156,6 @@
     </div>
 
     <script>
-        // Chart configuration
         const chartConfig = {
             type: 'doughnut',
             options: {
@@ -175,10 +175,9 @@
             }
         };
 
-        // Function to create charts for each format
         function createFormatChart(elementId, stats) {
             const ctx = document.getElementById(elementId).getContext('2d');
-            const totalDraws = stats.whiteDraws + stats.blackDraws; // Combine white and black draws
+            const totalDraws = stats.whiteDraws + stats.blackDraws; 
             return new Chart(ctx, {
                 ...chartConfig,
                 data: {
@@ -197,30 +196,25 @@
             });
         }
 
-        // Function to get current user from localStorage
         function getCurrentUser() {
             const userData = localStorage.getItem('chessmaster_user');
             return userData ? JSON.parse(userData) : null;
         }
 
-        // Initialize profile page with data from localStorage
         document.addEventListener('DOMContentLoaded', () => {
             const user = getCurrentUser();
 
             if (!user) {
-                // Handle case where user is not logged in
                 document.getElementById('profileUsername').textContent = 'Not Logged In';
                 return;
             }
 
-            // Update profile information
             document.getElementById('profileUsername').textContent = user.username;
             document.getElementById('totalGames').textContent = user.totalGames;
             document.getElementById('bulletRating').textContent = user.bulletRating;
             document.getElementById('blitzRating').textContent = user.blitzRating;
             document.getElementById('rapidRating').textContent = user.rapidRating;
 
-            // Create charts with real stats from localStorage
             createFormatChart('bulletChart', user.bulletStats);
             createFormatChart('blitzChart', user.blitzStats);
             createFormatChart('rapidChart', user.rapidStats);
