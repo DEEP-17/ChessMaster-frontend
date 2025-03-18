@@ -9,6 +9,9 @@ function getCurrentUser() {
         return null;
     }
 }
+document.getElementById('secondary-btn').addEventListener('click', function(event) {
+    window.location.href = 'rules.html';
+});
 document.getElementById('playNowBtn').addEventListener('click', function(event) {
     event.preventDefault(); 
     const user = getCurrentUser();
