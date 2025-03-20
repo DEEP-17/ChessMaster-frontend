@@ -40,7 +40,7 @@ body {
 
 .welcome-screen h1 {
     font-size: 4rem;
-    background: linear-gradient(135deg, var(--primary-color), #FFA500);
+    background: linear-gradient(135deg, var(--primary-color), rgba(230, 178, 7, 0.6));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     margin-bottom: 1.5rem;
