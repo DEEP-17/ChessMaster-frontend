@@ -473,10 +473,10 @@ stockfish.postMessage('go depth 15');
 ### Development Setup
 ```bash
 # Clone repository
-git clone https://github.com/yourusername/chessmaster.git
+git clone https://github.com/DEEP-17/ChessMaster-frontend.git
 
 # Navigate to project
-cd chessmaster
+cd ChessMaster-frontend
 
 # Start development server
 python -m http.server 8000
@@ -581,7 +581,7 @@ SOFTWARE.
   <p>Made with ❤️ by the ChessMaster Team</p>
   <p>
     <a href="#-table-of-contents">Back to Top</a> •
-    <a href="https://github.com/yourusername/chessmaster/issues">Report Bug</a> •
-    <a href="https://github.com/yourusername/chessmaster/issues">Request Feature</a>
+    <a href="https://github.com/DEEP-17/ChessMaster-frontend/issues">Report Bug</a> •
+    <a href="https://github.com/DEEP-17/ChessMaster-frontend/issues">Request Feature</a>
   </p>
 </div>
