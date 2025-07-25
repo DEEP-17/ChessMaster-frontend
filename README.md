@@ -153,8 +153,8 @@ graph TB
 
 #### Method 1: Direct Download
 ```bash
-git clone https://github.com/yourusername/chessmaster.git
-cd chessmaster
+git clone https://github.com/DEEP-17/ChessMaster-frontend.git
+cd ChessMaster-frontend 
 open index.html
 ```
 
